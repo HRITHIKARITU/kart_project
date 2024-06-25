@@ -1,12 +1,16 @@
 from django.db import models
 from accounts.models import Account
-from store.models import Product
+from store.models import Product,Variation
 # Create your models here.
 
 class Payment(models.Model):
+    PAYMENT_METHOD = (
+        ('PayPal','PayPal'),
+        ('RazorPay','RazorPay'),
+    )
     user = models.ForeignKey(Account,on_delete=models.CASCADE)
     payment_id = models.CharField(max_length=200)
-    payment_method = models.CharField(max_length=200)
+    payment_method = models.CharField(max_length=200,choices=PAYMENT_METHOD)
     amount_paid = models.CharField(max_length=100)
     status = models.DateTimeField(auto_now_add=True)
     
@@ -55,6 +59,7 @@ class OrderProduct(models.Model):
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    variations = models.ManyToManyField(Variation,blank=True)
     quantity = models.IntegerField()
     product_price = models.FloatField()
     ordered = models.BooleanField(default=False)
