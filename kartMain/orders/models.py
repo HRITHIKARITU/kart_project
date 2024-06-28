@@ -8,7 +8,7 @@ class Payment(models.Model):
         ('PayPal','PayPal'),
         ('RazorPay','RazorPay'),
     )
-    user = models.ForeignKey(Account,on_delete=models.CASCADE)
+    user = models.ForeignKey(Account,on_delete=models.CASCADE) #better to change it to account
     payment_id = models.CharField(max_length=200)
     payment_method = models.CharField(max_length=200,choices=PAYMENT_METHOD)
     amount_paid = models.CharField(max_length=100)
